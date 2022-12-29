@@ -15,18 +15,19 @@
     path: /etc/systemd/timesyncd.conf
     regexp: '^#{{ item }}(=.*)$'
     replace: '{{ item }}\1'
-  loop: {{ timesyncd_params }}
+  loop: 
+    - "{{ timesyncd_params }}"
   notify: restart systemd-timesyncd
 
 - name: Enable NTP Sync
-  ansible.builtin.command:
-    cmd: "timedatectl set-ntp true"
-  notify: restart systemd-timesyncd
+  command: |
+    /usr/bin/timedatectl set-ntp true
 
-- name: Set TimeZone
-  ansible.builtin.command:
-    cmd: "timedatectl set-timezone {{ timesyncd_timezone }}"
+- name: Configure TimeZone
+  timezone:
+    name: "{{ timezone }}"
   notify: restart systemd-timesyncd
+  when: ansible_service_mgr == "systemd"
 
 
 ...
