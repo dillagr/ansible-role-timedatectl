@@ -18,9 +18,9 @@ timezone - the timezone of the local machine
 
     - hosts: servers
       roles:
-         - dillagr.timedatectl
-           timesyncd_servers: "asia.pool.ntp.org"
-           timezone: "Asia/Hongkong"
+        - dillagr.timedatectl
+          timesyncd_servers: "asia.pool.ntp.org"
+          timezone: "Asia/Hongkong"
 
 
 ## License
