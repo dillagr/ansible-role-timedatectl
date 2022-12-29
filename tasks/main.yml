@@ -19,9 +19,17 @@
     - "{{ timesyncd_params }}"
   notify: restart systemd-timesyncd
 
+- name: Check NTP Config
+  command: |
+    /usr/bin/timedatectl show --property=NTP --value
+  register: ntp_config
+  changed_when: ntp_config.rc != 0
+
 - name: Enable NTP Sync
   command: |
     /usr/bin/timedatectl set-ntp true
+  when: ntp_config.stdout_lines[-1] != "yes"
+  notify: restart systemd-timesyncd
 
 - name: Configure TimeZone
   timezone:
