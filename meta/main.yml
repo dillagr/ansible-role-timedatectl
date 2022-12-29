@@ -1,0 +1,18 @@
+galaxy_info:
+
+  author: dillagr
+
+  description: |
+    Configure the timedatectl service for Ubuntu Servers.
+    Tested on Ubuntu LTS 18 and Ubuntu LTS 20
+
+  license: GPL-3.0
+
+  min_ansible_version: 2.4
+
+  galaxy_tags: 
+    ubuntu
+    timedatectl
+
+dependencies: []
+  

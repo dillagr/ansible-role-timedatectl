@@ -1,0 +1,32 @@
+---
+
+- name: Configure NTP Server(s)
+  ansible.builtin.ini_file:
+    path: /etc/systemd/timesyncd.conf
+    section: Time
+    option: NTP
+    value: "{{ timesyncd_servers }}"
+    backup: yes
+    no_extra_spaces: yes
+  notify: restart systemd-timesyncd
+
+- name: Uncomment Other Parameters
+  ansible.builtin.replace:
+    path: /etc/systemd/timesyncd.conf
+    regexp: '^#{{ item }}(=.*)$'
+    replace: '{{ item }}\1'
+  loop: {{ timesyncd_params }}
+  notify: restart systemd-timesyncd
+
+- name: Enable NTP Sync
+  ansible.builtin.command:
+    cmd: "timedatectl set-ntp true"
+  notify: restart systemd-timesyncd
+
+- name: Set TimeZone
+  ansible.builtin.command:
+    cmd: "timedatectl set-timezone {{ timesyncd_timezone }}"
+  notify: restart systemd-timesyncd
+
+
+...

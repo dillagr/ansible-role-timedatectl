@@ -1,0 +1,15 @@
+---
+# defaults file for ansible-role-timedatectl
+
+# space-separated values of time servers
+timesyncd_servers: "asia.pool.ntp.org"
+
+# see the file: /etc/systemd/timesyncd.conf for reference
+timesyncd_params:
+  - FallbackNTP
+  - PollIntervalMinSec
+  - PollIntervalMaxSec
+
+timezone: Etc/UTC
+
+...
